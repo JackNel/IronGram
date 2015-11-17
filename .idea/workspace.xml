@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="711ee195-4820-4eab-ac67-d447915a5c99" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/main.mv.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/photo150163275489965653.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/photo6771963609387349159.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/theironyard/IronGramController/IronGramController.java" afterPath="$PROJECT_DIR$/src/main/java/com/theironyard/IronGramController/IronGramController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/theironyard/entities/Photo.java" afterPath="$PROJECT_DIR$/src/main/java/com/theironyard/entities/Photo.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -76,7 +70,7 @@
       <file leaf-file-name="IronGramController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/theironyard/IronGramController/IronGramController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.63137996">
+            <state vertical-scroll-proportion="0.8015123">
               <caret line="113" column="33" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -1149,7 +1143,13 @@
       <option name="project" value="LOCAL" />
       <updated>1447780454760</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add 10 seconds and then delete">
+      <created>1447790958747</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1447790958747</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1186,7 +1186,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial import" />
+    <MESSAGE value="Add 10 seconds and then delete" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add 10 seconds and then delete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1281,7 +1282,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/theironyard/IronGramController/IronGramController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63137996">
+        <state vertical-scroll-proportion="0.8015123">
           <caret line="113" column="33" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />

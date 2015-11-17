@@ -112,6 +112,8 @@ public class IronGramController {
                 photos.save(p);
             } else if (p.accessTime.isBefore(LocalDateTime.now().minusSeconds(10))) {
                 photos.delete(p);
+                File file = new File(String.format("public/%s", p.filename));
+                file.delete();
             }
         }
         return photos.findByReceiver(user);

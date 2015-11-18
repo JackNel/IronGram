@@ -5,6 +5,7 @@ import com.theironyard.entities.User;
 import com.theironyard.services.PhotoRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utils.PasswordHash;
+import jodd.json.JsonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -124,15 +123,20 @@ public class IronGramController {
     }
 
     @RequestMapping("/public-photos")
-    public List<Photo> publicPhotos(HttpSession session, String username) throws Exception {
+    public String publicPhotos(HttpSession session, String username) throws Exception {
         String currentUsername = (String) session.getAttribute("username");
         if (username == null) {
             throw new Exception("Not logged in");
         }
         User user = users.findOneByUsername(username);
         List<Photo> photoList = photos.findBySender(user);
-
-
+        for (Photo photo : photoList) {
+            if (photo.isPublic == true) {
+                photoList.add(photo);
+            }
+        }
+        JsonSerializer serializer = new JsonSerializer();
+        return serializer.serialize(photoList);
     }
 
 }

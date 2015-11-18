@@ -28,4 +28,7 @@ public class Photo {
 
     @Column(nullable = false)
     public int seconds;
+
+    @Column
+    public boolean isPublic;
 }

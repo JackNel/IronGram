@@ -72,7 +72,8 @@ public class IronGramController {
             HttpServletResponse response,
             String receiver,
             MultipartFile photo,
-            int seconds
+            int seconds,
+            boolean isPublic
     ) throws Exception {
         String username = (String) session.getAttribute("username");
         if (username == null) {
@@ -93,6 +94,7 @@ public class IronGramController {
         p.receiver = receiverUser;
         p.filename = photoFile.getName();
         p.seconds = seconds;
+        p.isPublic = isPublic;
         photos.save(p);
 
         response.sendRedirect("/");
@@ -119,6 +121,18 @@ public class IronGramController {
             }
         }
         return photos.findByReceiver(user);
+    }
+
+    @RequestMapping("/public-photos")
+    public List<Photo> publicPhotos(HttpSession session, String username) throws Exception {
+        String currentUsername = (String) session.getAttribute("username");
+        if (username == null) {
+            throw new Exception("Not logged in");
+        }
+        User user = users.findOneByUsername(username);
+        List<Photo> photoList = photos.findBySender(user);
+
+
     }
 
 }

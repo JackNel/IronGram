@@ -8,6 +8,7 @@ import com.theironyard.utils.PasswordHash;
 import jodd.json.JsonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 /**
  * Created by Jack on 11/17/15.
@@ -71,7 +75,7 @@ public class IronGramController {
             HttpServletResponse response,
             String receiver,
             MultipartFile photo,
-            int seconds,
+            @RequestParam(defaultValue = "10") int seconds,
             boolean isPublic
     ) throws Exception {
         String username = (String) session.getAttribute("username");
@@ -117,29 +121,56 @@ public class IronGramController {
             if (p.accessTime == null) {
                 p.accessTime = LocalDateTime.now();
                 photos.save(p);
-            } else if (p.accessTime.isBefore(LocalDateTime.now().minusSeconds(p.seconds))) {
+              //  waitToDelete(p, p.seconds);
+            }
+            // All of this commented out stuff are additional ways to delete the file
+
+            else if (p.accessTime.isBefore(LocalDateTime.now().minusSeconds(p.seconds))) {
                 photos.delete(p);
-                File file = new File(String.format("public/%s", p.filename));
+                File file = new File("public", p.filename);
                 file.delete();
             }
+
         }
         return photos.findByReceiver(user);
     }
 
-    @RequestMapping("/public-photos")
-    public String publicPhotos(HttpSession session, String username) throws Exception {
-        String currentUsername = (String) session.getAttribute("username");
-        if (username == null) {
-            throw new Exception("Not logged in");
-        }
-        User user = users.findOneByUsername(username);
-        List<Photo> photoList = photos.findBySender(user);
-        for (Photo photo : photoList) {
-            if (photo.isPublic == true) {
-                photoList.add(photo);
+    /*
+    public void waitToDelete(Photo photo, int seconds) {
+
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(seconds * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-        JsonSerializer serializer = new JsonSerializer();
-        return serializer.serialize(photoList);
+            photos.delete(photo);
+            File f = new File("public", photo.filename);
+            f.delete();
+        });
+        t.start();
+
+        Below is another example using a thread
+
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                photos.delete(photo);
+                File f = new File("public", photo.filename);
+                f.delete();
+            }
+        }, seconds * 1000);
+    }
+    */
+
+    @RequestMapping("/public-photos")
+    public List<Photo> publicPhotos(String username) throws Exception {
+        User user = users.findOneByUsername(username);
+
+        List<Photo> photoList = photos.findBySender(user).stream()
+                .filter(p1 -> p1.isPublic)
+                .collect(Collectors.toList());
+        return photoList;
     }
 }

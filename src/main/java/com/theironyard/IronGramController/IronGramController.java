@@ -71,7 +71,8 @@ public class IronGramController {
             HttpSession session,
             HttpServletResponse response,
             String receiver,
-            MultipartFile photo
+            MultipartFile photo,
+            int seconds
     ) throws Exception {
         String username = (String) session.getAttribute("username");
         if (username == null) {
@@ -91,6 +92,7 @@ public class IronGramController {
         p.sender = senderUser;
         p.receiver = receiverUser;
         p.filename = photoFile.getName();
+        p.seconds = seconds;
         photos.save(p);
 
         response.sendRedirect("/");
@@ -110,7 +112,7 @@ public class IronGramController {
             if (p.accessTime == null) {
                 p.accessTime = LocalDateTime.now();
                 photos.save(p);
-            } else if (p.accessTime.isBefore(LocalDateTime.now().minusSeconds(10))) {
+            } else if (p.accessTime.isBefore(LocalDateTime.now().minusSeconds(p.seconds))) {
                 photos.delete(p);
                 File file = new File(String.format("public/%s", p.filename));
                 file.delete();

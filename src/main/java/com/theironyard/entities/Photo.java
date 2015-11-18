@@ -25,4 +25,7 @@ public class Photo {
 
     @Column
     public LocalDateTime accessTime;
+
+    @Column(nullable = false)
+    public int seconds;
 }

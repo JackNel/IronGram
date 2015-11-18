@@ -84,7 +84,11 @@ public class IronGramController {
             throw new Exception("Receiver name doesn't exist.");
         }
 
-        File photoFile = File.createTempFile("photo", ".jpg", new File("public"));
+        if (!photo.getContentType().startsWith("image")) {
+            throw new Exception("Only images are allowed");
+        }
+
+        File photoFile = File.createTempFile("photo", photo.getOriginalFilename(), new File("public"));
         FileOutputStream fos = new FileOutputStream(photoFile);
         fos.write(photo.getBytes());
 
@@ -138,5 +142,4 @@ public class IronGramController {
         JsonSerializer serializer = new JsonSerializer();
         return serializer.serialize(photoList);
     }
-
 }
